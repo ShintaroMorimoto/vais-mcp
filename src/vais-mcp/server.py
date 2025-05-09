@@ -14,7 +14,10 @@ async def search(
     vais_location: str = "global",
     page_size: int = 5,
     max_extractive_segment_count: int = 2,
-) -> dict[str, str]:
+) -> dict[str, list[str]]:
+    print(
+        f"Searching for {search_query} in {google_cloud_project_id} with {vais_engine_id} at {vais_location}"
+    )
     response = call_vais(
         search_query=search_query,
         google_cloud_project_id=google_cloud_project_id,
