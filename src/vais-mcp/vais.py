@@ -63,3 +63,4 @@ def call_vais(
     response = client.search(request)
     contents = _get_contents(response)
     return contents
+    return contents
