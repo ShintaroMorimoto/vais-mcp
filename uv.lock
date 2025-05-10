@@ -630,7 +630,7 @@ wheels = [
 [[package]]
 name = "vais-mcp"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "fastapi-mcp" },
@@ -638,7 +638,7 @@ dependencies = [
     { name = "uvicorn" },
 ]
 
-[package.dev-dependencies]
+[package.optional-dependencies]
 dev = [
     { name = "ruff" },
 ]
@@ -648,8 +648,7 @@ requires-dist = [
     { name = "fastapi", specifier = ">=0.115.12" },
     { name = "fastapi-mcp", specifier = ">=0.3.3" },
     { name = "google-cloud-discoveryengine", specifier = ">=0.13.8" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.11.8" },
     { name = "uvicorn", specifier = ">=0.34.2" },
 ]
-
-[package.metadata.requires-dev]
-dev = [{ name = "ruff", specifier = ">=0.11.8" }]
+provides-extras = ["dev"]

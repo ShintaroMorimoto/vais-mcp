@@ -7,11 +7,8 @@ RUN python -m pip install --no-cache-dir -r requirements.setup.txt \
     && uv venv \
     && uv sync
 
-
 COPY . /app
 
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-
-ENTRYPOINT ["/app/entrypoint.sh"]
+# pyproject.tomlの[project.scripts]で定義された "vais-mcp" スクリプトを実行
+ENTRYPOINT ["uv", "run", "vais-mcp"]
 CMD []
