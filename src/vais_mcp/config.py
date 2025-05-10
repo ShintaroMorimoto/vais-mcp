@@ -13,7 +13,9 @@ class Settings(BaseSettings):
     MCP_PORT: int = 8000
     MCP_HOST: str = "0.0.0.0"
 
-    model_config = SettingsConfigDict(extra="ignore")
+    LOG_LEVEL: str = "WARNING"
+
+    model_config = SettingsConfigDict(extra="ignore", env_ignore_empty=True)
 
 
 # Auto-validation of required fields

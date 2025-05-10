@@ -2,8 +2,13 @@ from google.api_core.client_options import ClientOptions
 from google.cloud import discoveryengine_v1 as discoveryengine
 from google.cloud.discoveryengine_v1.services.search_service import pagers
 from google.protobuf.json_format import MessageToDict
+from loguru import logger
 
 from .google_cloud import get_credentials
+
+
+class VaisError(Exception):
+    pass
 
 
 def _get_contents(response: pagers.SearchPager) -> list[str]:
@@ -27,6 +32,12 @@ def call_vais(
     page_size: int,
     max_extractive_segment_count: int,
 ) -> list[str]:
+    logger.info(
+        f"Calling VAIS with query: {search_query}, project: {google_cloud_project_id}, engine: {vais_engine_id}"
+    )
+    logger.debug(
+        f"VAIS parameters: location={vais_location}, page_size={page_size}, max_extractive_segment_count={max_extractive_segment_count}"
+    )
     client_options = (
         ClientOptions(api_endpoint=f"{vais_location}-discoveryengine.googleapis.com")
         if vais_location != "global"
@@ -58,11 +69,12 @@ def call_vais(
                 mode=discoveryengine.SearchRequest.SpellCorrectionSpec.Mode.AUTO
             ),
         )
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
 
-    response = client.search(request)
-    contents = _get_contents(response)
-    return contents
-    return contents
+        response = client.search(request)
+        contents = _get_contents(response)
+        logger.info(f"Successfully retrieved {len(contents)} results from VAIS.")
+        return contents
+
+    except Exception as e:
+        logger.error(f"Error in call_vais: {e}")
+        raise VaisError(f"Failed to call VAIS: {e}") from e

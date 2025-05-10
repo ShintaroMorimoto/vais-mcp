@@ -47,18 +47,22 @@ https://console.cloud.google.com/gen-app-builder/locations/<location>/engines/<e
 
 You can configure the following optional parameters in the environment or server configuration:
 
+- `vais_location`: The location of the Vertex AI Search engine. (Default: "global")
 - `page_size`: The number of documents to retrieve as search results. (Default: 5)
-- `max_extractive_count`: The maximum number of extractive chunks to retrieve from each document. (Default: 2)
+- `max_extractive_segment_count`: The maximum number of extractive chunks to retrieve from each document. (Default: 2)
+- `log_level`: Specifies the logging level. (Default: "WARNING")
 
 Example:
 
 ```json
-"env": {
-  "GOOGLE_CLOUD_PROJECT_ID": "<your_google_cloud_project_id>",
-  "VAIS_ENGINE_ID": "<your_vais_engine_id>",
-  "page_size": "20",
-  "max_extractive_count": "8"
-}
+  "env": {
+    "GOOGLE_CLOUD_PROJECT_ID": "<your_google_cloud_project_id>",
+    "VAIS_ENGINE_ID": "<your_vais_engine_id>",
+    "VAIS_LOCATION": "us-central1",
+    "page_size": "20",
+    "max_extractive_segment_count": "8",
+    "log_level": "DEBUG"
+  }
 ```
 
 ## Google Cloud Authentication
@@ -69,15 +73,16 @@ This MCP server authenticates to Google Cloud using the following methods:
   ADC automatically finds your credentials from the environment, such as your local user credentials (set up via `gcloud auth application-default login`) or a service account attached to the compute resource. For more details, see the [official documentation](https://cloud.google.com/docs/authentication).
 
 - If you wish to use a specific service account for authentication, set the `IMPERSONATE_SERVICE_ACCOUNT` environment variable to the email address of the service account you want to impersonate.
-  Example:
 
-  ```json
+Example:
+
+```json
   "env": {
     "GOOGLE_CLOUD_PROJECT_ID": "your_google_cloud_project_id",
     "VAIS_ENGINE_ID": "your_vais_engine_id",
     "IMPERSONATE_SERVICE_ACCOUNT": "your-service-account@your-project.iam.gserviceaccount.com"
   }
-  ```
+```
 
 - The account used for authentication **must** have the "Vertex AI User" role (`roles/aiplatform.user`).
   This is required to access Vertex AI Search resources. For more information about roles, see [Vertex AI roles and permissions](https://cloud.google.com/vertex-ai/docs/general/access-control).

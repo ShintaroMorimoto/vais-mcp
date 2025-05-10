@@ -5,7 +5,7 @@ PAGE_SIZE ?= 5
 MAX_EXTRACTIVE_SEGMENT_COUNT ?= 2
 MCP_PORT ?= 8000
 MCP_HOST ?= 0.0.0.0
-
+LOG_LEVEL ?= WARNING
 # For any additional arguments to pass to the uvicorn command (via 'uv run vais-mcp').
 # Example: make run ARGS="--reload"
 ARGS ?=
@@ -30,6 +30,7 @@ run:
 	@echo "  MAX_EXTRACTIVE_SEGMENT_COUNT   : $(MAX_EXTRACTIVE_SEGMENT_COUNT)"
 	@echo "  MCP_HOST                       : $(MCP_HOST)"
 	@echo "  MCP_PORT                       : $(MCP_PORT)"
+	@echo "  LOG_LEVEL                      : $(LOG_LEVEL)"
 	@echo "  Additional ARGS to uv run      : $(ARGS)"
 	@echo "---"
 	PYTHONPATH=src \
@@ -41,12 +42,17 @@ run:
 	MAX_EXTRACTIVE_SEGMENT_COUNT=$(MAX_EXTRACTIVE_SEGMENT_COUNT) \
 	MCP_HOST="$(MCP_HOST)" \
 	MCP_PORT="$(MCP_PORT)" \
+	LOG_LEVEL="$(LOG_LEVEL)" \
 	uv run vais-mcp $(ARGS)
 
 # Example usage:
 #   make run GOOGLE_CLOUD_PROJECT_ID=my-project VAIS_ENGINE_ID=my-engine
 #   export GOOGLE_CLOUD_PROJECT_ID=my-project; export VAIS_ENGINE_ID=my-engine; make run
 #   make run GOOGLE_CLOUD_PROJECT_ID=my-project VAIS_ENGINE_ID=my-engine ARGS="--reload" (Uvicorn's --reload flag)
+
+.PHONY: test
+test:
+	uv run pytest
 
 .PHONY: help
 help:
