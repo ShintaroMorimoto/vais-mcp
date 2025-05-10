@@ -21,6 +21,7 @@ def _get_contents(response: pagers.SearchPager) -> list[str]:
 def call_vais(
     search_query: str,
     google_cloud_project_id: str,
+    impersonate_service_account: str,
     vais_engine_id: str,
     vais_location: str,
     page_size: int,
@@ -33,6 +34,7 @@ def call_vais(
     )
     credentials = get_credentials(
         project_id=google_cloud_project_id,
+        impersonate_service_account=impersonate_service_account,
     )
     client = discoveryengine.SearchServiceClient(
         credentials=credentials, client_options=client_options

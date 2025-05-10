@@ -3,8 +3,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     GOOGLE_CLOUD_PROJECT_ID: str
-    VAIS_ENGINE_ID: str
+    IMPERSONATE_SERVICE_ACCOUNT: str | None = None
 
+    VAIS_ENGINE_ID: str
     VAIS_LOCATION: str = "global"
     PAGE_SIZE: int = 5
     MAX_EXTRACTIVE_SEGMENT_COUNT: int = 2

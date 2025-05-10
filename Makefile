@@ -1,4 +1,5 @@
 # Optional variables with default values.
+IMPERSONATE_SERVICE_ACCOUNT ?=
 VAIS_LOCATION ?= global
 PAGE_SIZE ?= 5
 MAX_EXTRACTIVE_SEGMENT_COUNT ?= 2
@@ -22,6 +23,7 @@ run:
 	@echo "--- Starting Vertex AI Search MCP (local) ---"
 	@echo "Configuration (from environment/Makefile defaults):"
 	@echo "  GOOGLE_CLOUD_PROJECT_ID        : $(GOOGLE_CLOUD_PROJECT_ID)"
+	@echo "  IMPERSONATE_SERVICE_ACCOUNT    : $(IMPERSONATE_SERVICE_ACCOUNT)"
 	@echo "  VAIS_ENGINE_ID                 : $(VAIS_ENGINE_ID)"
 	@echo "  VAIS_LOCATION                  : $(VAIS_LOCATION)"
 	@echo "  PAGE_SIZE                      : $(PAGE_SIZE)"
@@ -32,6 +34,7 @@ run:
 	@echo "---"
 	PYTHONPATH=src \
 	GOOGLE_CLOUD_PROJECT_ID="$(GOOGLE_CLOUD_PROJECT_ID)" \
+	IMPERSONATE_SERVICE_ACCOUNT="$(IMPERSONATE_SERVICE_ACCOUNT)" \
 	VAIS_ENGINE_ID="$(VAIS_ENGINE_ID)" \
 	VAIS_LOCATION="$(VAIS_LOCATION)" \
 	PAGE_SIZE=$(PAGE_SIZE) \

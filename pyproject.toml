@@ -4,27 +4,23 @@ version = "0.1.0"
 description = "Vertex AI Searchを用いたMCPサーバー (ここに具体的な説明を記述してください)"
 readme = "README.md"
 requires-python = ">=3.13"
-authors = [
-  { name = "Shintaro Mormioto", email = "mrmtsntr1@gmail.com" },
-]
-license = { text = "MIT" }
 dependencies = [
     "fastapi>=0.115.12",
     "fastapi-mcp>=0.3.3",
     "google-cloud-discoveryengine>=0.13.8",
     "uvicorn>=0.34.2",
 ]
+license = {text = "Apache-2.0"}
+license-files = ["LICENSE"]
+
+authors = [
+  { name = "Shintaro Mormioto", email = "mrmtsntr1@gmail.com" },
+]
 classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.13",
-    "Framework :: FastAPI",
-    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-keywords = ["vais", "mcp", "vertex ai search", "fastapi"]
-urls = { "Homepage" = "https://github.com/yourusername/vais-mcp", "Repository" = "https://github.com/yourusername/vais-mcp" }
 
 [project.optional-dependencies]
 dev = [
@@ -35,6 +31,5 @@ dev = [
 vais-mcp = "vais_mcp.server:main"
 
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-backend-path = ["."]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

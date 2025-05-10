@@ -14,6 +14,7 @@ async def search(
     response_data = call_vais(
         search_query=search_query,
         google_cloud_project_id=settings.GOOGLE_CLOUD_PROJECT_ID,
+        impersonate_service_account=settings.IMPERSONATE_SERVICE_ACCOUNT,
         vais_engine_id=settings.VAIS_ENGINE_ID,
         vais_location=settings.VAIS_LOCATION,
         page_size=settings.PAGE_SIZE,
