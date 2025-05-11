@@ -1,7 +1,6 @@
 import sys
 
-from fastapi import FastAPI, HTTPException
-from fastapi_mcp import FastApiMCP
+from fastmcp import FastMCP
 from loguru import logger
 
 from .config import settings
@@ -11,10 +10,10 @@ logger.remove()
 logger.add(sys.stderr, level=settings.LOG_LEVEL)
 
 
-app = FastAPI()
+mcp = FastMCP(name="Vertex AI Search MCP", description="Vertex AI Search MCP server")
 
 
-@app.get("/")
+@mcp.tool()
 async def search(
     search_query: str,
 ) -> dict:
@@ -37,20 +36,12 @@ async def search(
         return {"response": response_data}
     except VaisError as e:
         logger.error(f"Error processing search request: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-mcp = FastApiMCP(
-    app, name="Vertex AI Search MCP", description="Vertex AI Search MCP server"
-)
-mcp.mount()
+        return {"error": str(e), "status_code": 500}
 
 
 def main():
-    import uvicorn
-
-    logger.info("Starting uvicorn server.")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    logger.info("Starting FastMCP server.")
+    mcp.run()
 
 
 if __name__ == "__main__":

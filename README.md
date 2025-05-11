@@ -21,7 +21,7 @@ Add the following to your server configuration (preferred):
 {
   "vais-mcp": {
     "command": "uvx",
-    "args": ["vais-mcp"],
+    "args": ["vais-mcp@latest"],
     "env": {
       "GOOGLE_CLOUD_PROJECT_ID": "<your_google_cloud_project_id>",
       "VAIS_ENGINE_ID": "<your_vais_engine_id>"
@@ -112,5 +112,5 @@ uv sync
 You can launch the MCP Inspector using following command:
 
 ```bash
-npx @modelcontextprotocol/inspector SSE <server_url>
+npx @modelcontextprotocol/inspector uvx vais_mcp@latest
 ```
