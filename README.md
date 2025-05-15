@@ -5,6 +5,20 @@ MCP server to search private data in Vertex AI Search.
 ## Tools
 
 - `search`: Search for Vertex AI Search and returns result chunks.
+  Returns a list of dictionaries, each containing the title of the source document and the extracted content chunk. Example:
+
+```json
+[
+  {
+    "title": "Sample Document Title 1",
+    "content": "Extracted text segment from the document."
+  },
+  {
+    "title": "Sample Document Title 2",
+    "content": "Another extracted text segment."
+  }
+]
+```
 
 ## Prerequisites
 
@@ -59,9 +73,9 @@ Example:
     "GOOGLE_CLOUD_PROJECT_ID": "<your_google_cloud_project_id>",
     "VAIS_ENGINE_ID": "<your_vais_engine_id>",
     "VAIS_LOCATION": "us-central1",
-    "page_size": "20",
-    "max_extractive_segment_count": "8",
-    "log_level": "DEBUG"
+    "PAGE_SIZE": "20",
+    "MAX_EXTRACTIVE_SEGMENT_COUNT": "8",
+    "LOG_LEVEL": "DEBUG"
   }
 ```
 

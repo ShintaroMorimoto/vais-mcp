@@ -23,7 +23,5 @@ def test_settings_default_values(monkeypatch):
     assert current_settings.VAIS_LOCATION == "global"
     assert current_settings.PAGE_SIZE == 5
     assert current_settings.MAX_EXTRACTIVE_SEGMENT_COUNT == 2
-    assert current_settings.MCP_PORT == 8000
-    assert current_settings.MCP_HOST == "0.0.0.0"
     assert current_settings.LOG_LEVEL == "WARNING"
     assert current_settings.model_config.get("extra") == "ignore"

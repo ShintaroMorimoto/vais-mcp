@@ -11,14 +11,25 @@ class VaisError(Exception):
     pass
 
 
-def _get_contents(response: pagers.SearchPager) -> list[str]:
+def _get_contents(response: pagers.SearchPager) -> list[dict]:
     contents = []
 
     for r in response.results:
         r_dct = MessageToDict(r._pb)
-        segments = r_dct["document"]["derivedStructData"]["extractive_segments"]
+        title = (
+            r_dct.get("document", {})
+            .get("derivedStructData", {})
+            .get("title", "Unknown source")
+        )
+        segments = (
+            r_dct.get("document", {})
+            .get("derivedStructData", {})
+            .get("extractive_segments", [])
+        )
+
         for segment in segments:
-            contents.append(segment["content"])
+            content = segment.get("content", "")
+            contents.append({"title": title, "content": content})
 
     return contents
 

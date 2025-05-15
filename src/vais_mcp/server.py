@@ -10,7 +10,11 @@ logger.remove()
 logger.add(sys.stderr, level=settings.LOG_LEVEL)
 
 
-mcp = FastMCP(name="Vertex AI Search MCP", description="Vertex AI Search MCP server")
+mcp = FastMCP(
+    name="Vertex AI Search MCP",
+    description="Vertex AI Search MCP server",
+    log_level=settings.LOG_LEVEL,
+)
 
 
 @mcp.tool()

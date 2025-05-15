@@ -10,9 +10,6 @@ class Settings(BaseSettings):
     PAGE_SIZE: int = 5
     MAX_EXTRACTIVE_SEGMENT_COUNT: int = 2
 
-    MCP_PORT: int = 8000
-    MCP_HOST: str = "0.0.0.0"
-
     LOG_LEVEL: str = "WARNING"
 
     model_config = SettingsConfigDict(extra="ignore", env_ignore_empty=True)

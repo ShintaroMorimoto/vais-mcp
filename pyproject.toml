@@ -1,6 +1,6 @@
 [project]
 name = "vais_mcp"
-version = "0.1.0a2"
+version = "0.1.0a5"
 description = "MCP server to search private data in Vertex AI Search."
 readme = "README.md"
 requires-python = ">=3.13"
@@ -8,6 +8,7 @@ dependencies = [
     "fastmcp>=2.3.3",
     "google-cloud-discoveryengine>=0.13.8",
     "loguru>=0.7.3",
+    "mcp[cli]>=1.8.0",
     "pytest>=8.3.5",
     "uvicorn>=0.34.2",
 ]
