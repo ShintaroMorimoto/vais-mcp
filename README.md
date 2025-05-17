@@ -46,7 +46,7 @@ Add the following to your server configuration:
 }
 ```
 
-If you want to run with Docker, you will need to obtain a service account credential key beforehand and mount its path into the Docker container.
+If you want to run with Docker, you will need to obtain a service account key beforehand and mount its path into the Docker container.
 
 ```json
 {
@@ -124,7 +124,7 @@ ADC automatically find credentials from the environment, such as your local user
 **Note:**
 
 - The account used for authentication **must** have the "Discovery Engine Viewer" role (`roles/discoveryengine.viewer`).
-  This is required to access Vertex AI Search resources. For more information about roles, see [Vertex AI roles and permissions](https://cloud.google.com/vertex-ai/docs/general/access-control).
+  This is required to access Vertex AI Search resources. For more information about roles, see [AI Applications roles and permissions](https://cloud.google.com/generative-ai-app-builder/docs/access-control).
 
 - If you are running locally, you can set up ADC by running:
   ```bash
