@@ -149,5 +149,5 @@ uv sync
 You can launch the MCP Inspector using following command:
 
 ```bash
-npx @modelcontextprotocol/inspector uvx vais_mcp@latest
+npx @modelcontextprotocol/inspector uvx vais-mcp@latest GOOGLE_CLOUD_PROJECT_ID=<google_cloud_project_id> VAIS_ENGINE_ID=<vais_engine_id>
 ```
