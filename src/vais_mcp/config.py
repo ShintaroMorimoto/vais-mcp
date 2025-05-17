@@ -1,9 +1,12 @@
+from typing import Optional
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     GOOGLE_CLOUD_PROJECT_ID: str
-    IMPERSONATE_SERVICE_ACCOUNT: str | None = None
+    IMPERSONATE_SERVICE_ACCOUNT: Optional[str] = None
+    SOURCE_SA_KEY_PATH: Optional[str] = "/app/secrets/sa-key.json"
 
     VAIS_ENGINE_ID: str
     VAIS_LOCATION: str = "global"
