@@ -117,9 +117,9 @@ This MCP server authenticates to Google Cloud using the following methods, takin
 - **Direct Authentication (No Impersonation)**:
   - If `IMPERSONATE_SERVICE_ACCOUNT` is **not** set:
     - If `SOURCE_SA_KEY_PATH` is set, the server will directly use the service account key file specified by `SOURCE_SA_KEY_PATH` for authentication.
-    - If `SOURCE_SA_KEY_PATH` is also **not** set, the server will use Application Default Credentials (ADC) for authentication.
+    - If `SOURCE_SA_KEY_PATH` is also **not** set, the server will use ADC for authentication.
 
-Application Default Credentials (ADC) automatically find credentials from the environment, such as your local user credentials (set up via `gcloud auth application-default login`) or a service account attached to the compute resource. For more details, see the [official documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc).
+ADC automatically find credentials from the environment, such as your local user credentials (set up via `gcloud auth application-default login`) or a service account attached to the compute resource. For more details, see the [official documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc).
 
 **Note:**
 
