@@ -46,29 +46,27 @@ Add the following to your server configuration:
 }
 ```
 
-If you want to run with Docker, follow the instructions below. You will need to obtain a service account credential key beforehand and mount its path into the Docker container.
+If you want to run with Docker, you will need to obtain a service account credential key beforehand and mount its path into the Docker container.
 
 ```json
 {
-  "mcpServers": {
-    "vais-mcp": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "GOOGLE_CLOUD_PROJECT_ID",
-        "-e",
-        "VAIS_ENGINE_ID",
-        "-v",
-        "/full/path/to/sa-key.json:/app/secrets/sa-key.json:ro",
-        "mrmtsntr/vais-mcp:latest"
-      ],
-      "env": {
-        "GOOGLE_CLOUD_PROJECT_ID": "<google_cloud_project_id>",
-        "VAIS_ENGINE_ID": "<vais_engine_id>"
-      }
+  "vais-mcp": {
+    "command": "docker",
+    "args": [
+      "run",
+      "-i",
+      "--rm",
+      "-e",
+      "GOOGLE_CLOUD_PROJECT_ID",
+      "-e",
+      "VAIS_ENGINE_ID",
+      "-v",
+      "/full/path/to/sa-key.json:/app/secrets/sa-key.json:ro",
+      "mrmtsntr/vais-mcp:latest"
+    ],
+    "env": {
+      "GOOGLE_CLOUD_PROJECT_ID": "<google_cloud_project_id>",
+      "VAIS_ENGINE_ID": "<vais_engine_id>"
     }
   }
 }
