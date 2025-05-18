@@ -15,6 +15,7 @@ build/
 
 # IDE/Editor specific
 .vscode/
+.cursor/
 .idea/
 
 # OS specific
