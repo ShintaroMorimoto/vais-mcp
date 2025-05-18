@@ -6,7 +6,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     GOOGLE_CLOUD_PROJECT_ID: str
     IMPERSONATE_SERVICE_ACCOUNT: Optional[str] = None
-    SOURCE_SA_KEY_PATH: Optional[str] = "/app/secrets/sa-key.json"
+    USE_MOUNTED_SA_KEY: bool = False
+    CONTAINER_SA_KEY_PATH: str = "/app/secrets/sa-key.json"
 
     VAIS_ENGINE_ID: str
     VAIS_LOCATION: str = "global"

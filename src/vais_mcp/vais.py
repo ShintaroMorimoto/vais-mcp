@@ -1,9 +1,12 @@
+from typing import Optional
+
 from google.api_core.client_options import ClientOptions
 from google.cloud import discoveryengine_v1 as discoveryengine
 from google.cloud.discoveryengine_v1.services.search_service import pagers
 from google.protobuf.json_format import MessageToDict
 from loguru import logger
 
+from .config import settings
 from .google_cloud import get_credentials
 
 
@@ -37,7 +40,7 @@ def _get_contents(response: pagers.SearchPager) -> list[dict]:
 def call_vais(
     search_query: str,
     google_cloud_project_id: str,
-    impersonate_service_account: str,
+    impersonate_service_account: Optional[str],
     vais_engine_id: str,
     vais_location: str,
     page_size: int,
@@ -57,6 +60,8 @@ def call_vais(
     credentials = get_credentials(
         project_id=google_cloud_project_id,
         impersonate_service_account=impersonate_service_account,
+        use_mounted_sa_key=settings.USE_MOUNTED_SA_KEY,
+        container_sa_key_path=settings.CONTAINER_SA_KEY_PATH,
     )
     client = discoveryengine.SearchServiceClient(
         credentials=credentials, client_options=client_options

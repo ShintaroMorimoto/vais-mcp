@@ -35,42 +35,51 @@ Add the following to your server configuration:
 
 ```json
 {
-  "vais-mcp": {
-    "command": "uvx",
-    "args": ["vais-mcp@latest"],
-    "env": {
-      "GOOGLE_CLOUD_PROJECT_ID": "<google_cloud_project_id>",
-      "VAIS_ENGINE_ID": "<vais_engine_id>"
+  "mcpServers": {
+    "vais-mcp": {
+      "command": "uvx",
+      "args": ["vais-mcp@latest"],
+      "env": {
+        "GOOGLE_CLOUD_PROJECT_ID": "<google_cloud_project_id>",
+        "VAIS_ENGINE_ID": "<vais_engine_id>"
+      }
     }
   }
 }
 ```
 
-If you want to run with Docker, you will need to obtain a service account key beforehand and mount its path into the Docker container.
+If you want to run with Docker, you will need to obtain a service account key beforehand and mount its path into the Docker container, configured within your `mcp.json`:
 
 ```json
 {
-  "vais-mcp": {
-    "command": "docker",
-    "args": [
-      "run",
-      "-i",
-      "--rm",
-      "-e",
-      "GOOGLE_CLOUD_PROJECT_ID",
-      "-e",
-      "VAIS_ENGINE_ID",
-      "-v",
-      "/full/path/to/sa-key.json:/app/secrets/sa-key.json:ro",
-      "mrmtsntr/vais-mcp:latest"
-    ],
-    "env": {
-      "GOOGLE_CLOUD_PROJECT_ID": "<google_cloud_project_id>",
-      "VAIS_ENGINE_ID": "<vais_engine_id>"
+  "mcpServers": {
+    "vais-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GOOGLE_CLOUD_PROJECT_ID",
+        "-e",
+        "VAIS_ENGINE_ID",
+        "-e",
+        "USE_MOUNTED_SA_KEY",
+        "-v",
+        "/your/local/path/to/sa-key.json:/app/secrets/sa-key.json:ro",
+        "mrmtsntr/vais-mcp:latest"
+      ],
+      "env": {
+        "GOOGLE_CLOUD_PROJECT_ID": "<google_cloud_project_id>",
+        "VAIS_ENGINE_ID": "<vais_engine_id>",
+        "USE_MOUNTED_SA_KEY": "true"
+      }
     }
   }
 }
 ```
+
+Note: When using Docker as shown above, ensure the local path `/your/local/path/to/sa-key.json` correctly points to your service account key file.
 
 Note: You can find the Vertex AI Search engine ID in the app url.
 
@@ -87,7 +96,7 @@ You can configure the following optional parameters in the environment or server
 - `max_extractive_segment_count`: The maximum number of extractive chunks to retrieve from each document. (Default: 2)
 - `log_level`: Specifies the logging level. (Default: "WARNING")
 - `IMPERSONATE_SERVICE_ACCOUNT`: The email address of a service account to impersonate for Google Cloud authentication. See the "Google Cloud Authentication" section for details.
-- `SOURCE_SA_KEY_PATH`: The path to a service account key file used either directly for authentication or as source credentials for impersonation. See the "Google Cloud Authentication" section for details.
+- `USE_MOUNTED_SA_KEY`: Set to `true` to indicate that a service account key file is mounted at `/app/secrets/sa-key.json` inside the container and should be used for authentication. (Default: `false`) If `false`, Application Default Credentials (ADC) will be used (unless `IMPERSONATE_SERVICE_ACCOUNT` is set and it also uses a mounted key as its source). If you set this to `true`, you **must** mount your local SA key file to `/app/secrets/sa-key.json` in the Docker container (e.g., using the `-v /path/to/your/local-sa-key.json:/app/secrets/sa-key.json` flag with `docker run`).
 
 Example:
 
@@ -100,26 +109,29 @@ Example:
     "MAX_EXTRACTIVE_SEGMENT_COUNT": "8",
     "LOG_LEVEL": "DEBUG",
     "IMPERSONATE_SERVICE_ACCOUNT": "target-sa@project.iam.gserviceaccount.com",
-    "SOURCE_SA_KEY_PATH": "/full/path/to/source-sa-key.json"
+    "USE_MOUNTED_SA_KEY": "true"
   }
 ```
 
 ## Google Cloud Authentication
 
-This MCP server authenticates to Google Cloud using the following methods, taking into account the `IMPERSONATE_SERVICE_ACCOUNT` and `SOURCE_SA_KEY_PATH` environment variables:
+This MCP server authenticates to Google Cloud using the following methods, taking into account the `IMPERSONATE_SERVICE_ACCOUNT` and `USE_MOUNTED_SA_KEY` environment variables:
 
 - **Service Account Impersonation**:
 
   - If the `IMPERSONATE_SERVICE_ACCOUNT` environment variable is set to the email address of a target service account, the server will attempt to impersonate that service account.
-    - If `SOURCE_SA_KEY_PATH` is also set, the service account key file specified by `SOURCE_SA_KEY_PATH` will be used as the source credentials for impersonation.
-    - If `SOURCE_SA_KEY_PATH` is **not** set, Application Default Credentials (ADC) will be used as the source credentials for impersonation.
+    - If `USE_MOUNTED_SA_KEY` is `true` (and a service account key file is mounted to `/app/secrets/sa-key.json` in the container), the service account key file at `/app/secrets/sa-key.json` will be used as the source credentials for impersonation.
+    - If `USE_MOUNTED_SA_KEY` is `false`, Application Default Credentials (ADC) will be used as the source credentials for impersonation.
 
 - **Direct Authentication (No Impersonation)**:
   - If `IMPERSONATE_SERVICE_ACCOUNT` is **not** set:
-    - If `SOURCE_SA_KEY_PATH` is set, the server will directly use the service account key file specified by `SOURCE_SA_KEY_PATH` for authentication.
-    - If `SOURCE_SA_KEY_PATH` is also **not** set, the server will use ADC for authentication.
+    - If `USE_MOUNTED_SA_KEY` is `true` (and a service account key file is mounted to `/app/secrets/sa-key.json`), the server will directly use the service account key file at `/app/secrets/sa-key.json` for authentication.
+    - If `USE_MOUNTED_SA_KEY` is `false`, the server will use ADC for authentication.
 
 ADC automatically find credentials from the environment, such as your local user credentials (set up via `gcloud auth application-default login`) or a service account attached to the compute resource. For more details, see the [official documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc).
+
+When using Docker via `mcp.json`:
+If you set `USE_MOUNTED_SA_KEY` to `"true"` in the `env` section of your `mcp.json` configuration, and correctly mount your local service account key file to `/app/secrets/sa-key.json` using the `-v` flag within the `args` section, the mounted service account key will be used for authentication as described in the flows above.
 
 **Note:**
 
@@ -146,7 +158,7 @@ uv sync
 
 ### Debugging
 
-You can launch the MCP Inspector using following command:
+You can launch the [MCP Inspector](https://github.com/modelcontextprotocol/inspector) using following command:
 
 ```bash
 npx @modelcontextprotocol/inspector uvx vais-mcp@latest GOOGLE_CLOUD_PROJECT_ID=<google_cloud_project_id> VAIS_ENGINE_ID=<vais_engine_id>
