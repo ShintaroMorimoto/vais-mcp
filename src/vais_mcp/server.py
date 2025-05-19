@@ -3,8 +3,10 @@ import sys
 from fastmcp import FastMCP
 from loguru import logger
 
-from .config import settings
+from .config import get_settings
 from .vais import VaisError, call_vais
+
+settings = get_settings()
 
 logger.remove()
 logger.add(sys.stderr, level=settings.LOG_LEVEL)

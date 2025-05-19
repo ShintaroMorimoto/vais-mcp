@@ -6,8 +6,10 @@ from google.cloud.discoveryengine_v1.services.search_service import pagers
 from google.protobuf.json_format import MessageToDict
 from loguru import logger
 
-from .config import settings
+from .config import get_settings
 from .google_cloud import get_credentials
+
+settings = get_settings()
 
 
 class VaisError(Exception):
