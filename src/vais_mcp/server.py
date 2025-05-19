@@ -18,7 +18,7 @@ mcp = FastMCP(
 
 
 @mcp.tool()
-async def search(
+async def search_vais(
     search_query: str,
 ) -> dict:
     logger.info(f"Received search request with query: '{search_query}'")

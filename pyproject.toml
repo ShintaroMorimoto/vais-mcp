@@ -1,6 +1,6 @@
 [project]
 name = "vais_mcp"
-version = "0.1.0a9"
+version = "0.1.0a10"
 description = "MCP server to search private data in Vertex AI Search."
 readme = "README.md"
 requires-python = ">=3.13"
