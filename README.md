@@ -4,7 +4,7 @@ MCP server to search private data in Vertex AI Search.
 
 ## Tools
 
-- `search`: Search for Vertex AI Search and returns result chunks.
+- `search_vais`: Search for Vertex AI Search and returns result chunks.
   Returns a dictionary with a "response" key. The value of "response" is a list of dictionaries, each containing the title of the source document and the extracted content chunk. Example:
 
 ```json
@@ -96,7 +96,7 @@ You can configure the following optional parameters in the environment or server
 - `max_extractive_segment_count`: The maximum number of extractive chunks to retrieve from each document. (Default: 2)
 - `log_level`: Specifies the logging level. (Default: "WARNING")
 - `IMPERSONATE_SERVICE_ACCOUNT`: The email address of a service account to impersonate for Google Cloud authentication. See the "Google Cloud Authentication" section for details.
-- `USE_MOUNTED_SA_KEY`: Set to `true` to indicate that a service account key file is mounted at `/app/secrets/sa-key.json` inside the container and should be used for authentication. (Default: `false`) If `false`, Application Default Credentials (ADC) will be used (unless `IMPERSONATE_SERVICE_ACCOUNT` is set and it also uses a mounted key as its source). If you set this to `true`, you **must** mount your local SA key file to `/app/secrets/sa-key.json` in the Docker container (e.g., using the `-v /path/to/your/local-sa-key.json:/app/secrets/sa-key.json` flag with `docker run`).
+- `USE_MOUNTED_SA_KEY`: Set to `true` to indicate that a service account key file is mounted at `/app/secrets/sa-key.json` inside the container and should be used for authentication. (Default: `false`) If `false`, Application Default Credentials (ADC) will be used (unless `IMPERSONATE_SERVICE_ACCOUNT` is set and it also uses a mounted key as its source). If you set this to `true`, you **must** mount your local SA key file to `/app/secrets/sa-key.json` in the Docker container.
 
 Example:
 
@@ -108,7 +108,7 @@ Example:
     "PAGE_SIZE": "20",
     "MAX_EXTRACTIVE_SEGMENT_COUNT": "8",
     "LOG_LEVEL": "DEBUG",
-    "IMPERSONATE_SERVICE_ACCOUNT": "target-sa@project.iam.gserviceaccount.com",
+    "IMPERSONATE_SERVICE_ACCOUNT": "your-sa@project.iam.gserviceaccount.com",
     "USE_MOUNTED_SA_KEY": "true"
   }
 ```
